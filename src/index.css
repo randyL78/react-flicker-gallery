@@ -2,6 +2,7 @@ body {
   text-align: center;
   font-family: 'Open Sans', sans-serif;
   color: #3f4850;
+  background-color: #ddf;
 }
 h2 {
   font-size: 2em;
@@ -66,6 +67,8 @@ input {
   height: 165px;
   overflow: hidden;
   margin-bottom: 15px;
+  border: 2px solid #eef;
+  box-shadow: 1px 1px 3px 2px #445;
 }
 .photo-container ul img {
   width: 100%;
@@ -77,6 +80,19 @@ input {
 }
 .photo-container .not-found {
   width: 100%;
+}
+
+.loadingIcon {
+  margin-left: auto;
+  margin-right: auto;
+  height: 50px;
+  width:  50px;
+  background: url("./Images/loading.gif");
+  background-size: cover;
+}
+
+.error {
+  color: #914356;
 }
 
 @media only screen and (max-width: 767px)  {

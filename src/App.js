@@ -4,13 +4,16 @@ import axios from 'axios'
 import  {
   BrowserRouter,
   Route,
-  Switch
+  Switch,
+  Redirect
 } from 'react-router-dom';
 
 // custom components
 import SearchForm from './SearchForm';
 import Navigation from './Navigation';
 import PhotoContainer from './PhotoContainer';
+import ErrorPage from './ErrorPage';
+import Loading from './Loading';
 
 // API key import
 import apiKey from './config.js';
@@ -23,6 +26,7 @@ constructor() {
   super();
   this.state = {
     pendingSearch: "",
+    searchedTerm: "",
     numberToDisplay: 48, // Change this to have different number of photos called and displayed
     isLoading: true,
     searchItems: []
@@ -65,26 +69,54 @@ constructor() {
     .catch(error => {
       console.log('Error fetching and parsing data', error);
     });
+    this.setState({searchedTerm:searchQuery});
   }
 
+  // grab text from nav buttons and use as search term
+  handleNav = e => {
+    this.searchFlickr(e.target.textContent);
+  };
+
   render() {
+
     return (
       <BrowserRouter>
         <div className="container">
           <Switch>
+            <Route exact path="/" render={ () => <Redirect to="/celebrities" />} />
             <Route path="/search" render={ () =><SearchForm
                         pendingSearch = {this.state.pendingSearch}
                         handleSearchInput = {this.handleSearchInput}
                         handleSearchSubmit = {this.handleSearchSubmit}
                       />  } />
+
+          </Switch>
+          <Navigation handleNav = {this.handleNav} />
+          <Switch>
+            <Route exact path="/anime" render={ () => {
+                      return (  (this.state.isLoading)
+                        ?  <p>Still Loading Results...</p>
+                        :  <PhotoContainer isLoading = {this.state.isLoading} searchItems = {this.state.searchItems} searchedTerm = {this.state.searchedTerm} />)
+                    } } />
+            <Route exact path="/celebrities" render={ () => {
+                      return (  (this.state.isLoading)
+                        ?  <p>Still Loading Results...</p>
+                        :  <PhotoContainer isLoading = {this.state.isLoading} searchItems = {this.state.searchItems} searchedTerm = {this.state.searchedTerm} />)
+                    } } />
+            <Route exact path="/sports" render={ () => {
+                      return (  (this.state.isLoading)
+                        ?  <p>Still Loading Results...</p>
+                        :  <PhotoContainer isLoading = {this.state.isLoading} searchItems = {this.state.searchItems} searchedTerm = {this.state.searchedTerm} />)
+                    } } />
+            <Route exact path="/search" render={ () => {
+                      return (  (this.state.isLoading)
+                        ?  <Loading />
+                        :  <PhotoContainer isLoading = {this.state.isLoading} searchItems = {this.state.searchItems} searchedTerm = {this.state.searchedTerm} />)
+                    } } />
+            <Route component={ErrorPage}/>
           </Switch>
 
-          <Navigation />
-          {
-            (this.state.isLoading)
-            ? <p>Still Loading Results...</p>
-            : <PhotoContainer searchItems = {this.state.searchItems} />
-          }
+
 
         </div>
       </BrowserRouter>
