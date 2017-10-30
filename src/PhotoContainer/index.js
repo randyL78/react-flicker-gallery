@@ -1,11 +1,13 @@
 // base libraries
 import React, { Component } from 'react';
 import axios from 'axios'
-import PropTypes from 'prop-types';
+import  { Route } from 'react-router-dom';
 
 // custom components
 import SubContainer from './SubContainer';
 import Loading from '../Loading';
+import Navigation from '../Navigation';
+import SearchForm from '../SearchForm';
 
 // API key import
 import apiKey from '../config.js';
@@ -69,7 +71,18 @@ class PhotoContainer extends Component {
     };
 render() {
   return (
-   <SubContainer searchItems = {this.state.searchItems} searchedTerm = {this.state.searchedTerm} />
+      <div>
+      <Route path="/search" render={ () =><SearchForm
+                  pendingSearch = {this.state.pendingSearch}
+                  handleSearchInput = {this.handleSearchInput}
+                  handleSearchSubmit = {this.handleSearchSubmit}
+                />  } />
+     <Navigation handleNav = {this.handleNav} />
+     {(this.state.isLoading)
+        ?  <Loading />
+        :  <SubContainer searchItems = {this.state.searchItems} searchedTerm = {this.state.searchedTerm} />
+      }
+    </div>
   )
 }
 }
