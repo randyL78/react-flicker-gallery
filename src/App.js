@@ -72,7 +72,7 @@ constructor() {
     this.setState({searchedTerm:searchQuery});
   }
 
-  // grab text from nav buttons and use as search term
+  //grab text from nav buttons and use as search term
   handleNav = e => {
     this.searchFlickr(e.target.textContent);
   };
