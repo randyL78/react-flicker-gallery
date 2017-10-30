@@ -71,7 +71,7 @@ class PhotoContainer extends Component {
     };
 render() {
   return (
-      <div>
+    <div className="container">
       <Route path="/search" render={ () =><SearchForm
                   pendingSearch = {this.state.pendingSearch}
                   handleSearchInput = {this.handleSearchInput}
