@@ -23,13 +23,14 @@ class PhotoContainer extends Component {
       numberToDisplay: 48, // Change this to have different number of photos called and displayed
       isLoading: true,
       searchItems: []
+
     }
 
   }
 
     //Once App loads perform search
     componentDidMount() {
-      this.searchFlickr();
+      this.searchFlickr(this.props.topic);
     }
 
     // Set pendingSearch's property to the value of the search input
@@ -42,7 +43,6 @@ class PhotoContainer extends Component {
       e.preventDefault();
       // Display loading icon
       this.setState({isLoading: true});
-
       this.searchFlickr(this.state.pendingSearch);
 
       // Reset search term
@@ -50,7 +50,7 @@ class PhotoContainer extends Component {
     };
 
     // Use axios to pull photos from flickr with tags from the search bar value, default to search for celebrities
-    searchFlickr = (searchQuery = this.props.topic) => {
+    searchFlickr = (searchQuery) => {
       axios.get(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${searchQuery}&per_page=${this.state.numberToDisplay}&page=1&format=json&nojsoncallback=1`)
       .then(response => {
         this.setState({
@@ -62,7 +62,7 @@ class PhotoContainer extends Component {
       .catch(error => {
         console.log('Error fetching and parsing data', error);
       });
-      this.setState({searchedTerm:searchQuery});
+      this.setState({searchedTerm: searchQuery});
     }
 
     // grab text from nav buttons and use as search term
